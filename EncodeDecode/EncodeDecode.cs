@@ -15,7 +15,8 @@ namespace EncodeDecode
         {
             var calculate = new Calculate.Calculate(); //Calculate sınıfı calculate değişkenine atanarak çağırlır.
             var partedData = calculate.DataPartion(data); //data byte dizini calculate sınıfının çift boyutlu byte dizisi döndüren DataPartiton fonkisyonuna girdi olarak verilir ve sonuç partedData değişkenine atanır.
-            Reverse2DimArray(partedData);// çift boyutlu partedData dizisinin her boyutunun simetriği alınır.
+            Reverse2DimArray(partedData);// çift boyutlu partedData dizisinin 1. boyutunun simetriği alınır.
+            partedData = TopEndSelect(partedData); // çift boyutlu partedData dizisinin 0. boyutuna sonbaş seçmesi uygulanır.
             byte[] result = new byte[partedData.Length]; // partedData uzunluğuna sahip result sonuç tek boyutlu byte dizisi tanımlanır.
             Buffer.BlockCopy(partedData, 0, result, 0, partedData.Length); //result byte dizisine parteData dizisi tek boyutlu olacak şekilde kopalanır
             if (isText == true)
@@ -34,7 +35,12 @@ namespace EncodeDecode
             var partLength = partedData.GetLength(1);//partLength(parça uzunluğu) değişkeni patedData çift boyutlu dizesinin 1. boyutunun uznluğuna tanımlanır.
             Console.WriteLine("PartCount: " + partCount);//parCount (parça sayısı) deşikeni Consola yazdırılır.
             Console.WriteLine("PartLength: " + partLength);//partLength(parça uzunluğu) değişkeni konsola yazdırılır.
-            Reverse2DimArray(partedData);//çift boyutlu partedData dizisinin her boyutunun simetriği alınır.
+            Reverse2DimArray(partedData); // çift boyutlu partedData dizisinin 1. boyutunun simetriği alınır.
+            for (int i = 0; i < partCount-1; i++)
+            {
+                var temp = TopEndSelect(partedData);
+                partedData=temp;
+            };//çift boyutlu partedData dizisinin 0.boyutuna son baş seçmesi çözülür alınır.
             byte[] result = new byte[partedData.Length];// partedData uzunluğuna sahip result sonuç tek boyutlu byte dizisi tanımlanır.
             Buffer.BlockCopy(partedData, 0, result, 0, partedData.Length); //result byte dizisine parteData dizisi tek boyutlu olacak şekilde kopalanır
             return result; // result sonuç değişleni döndürülür.
@@ -60,20 +66,38 @@ namespace EncodeDecode
                 }
 
             }
-            for (int colIndex = 0; colIndex <= (theArray.GetUpperBound(1)); colIndex++) //theArray çift boyutlu dizesinin 0.boyutlarının simetriği alınır
-            {
-                for (int rowIndex = 0; rowIndex <= (theArray.GetUpperBound(0) / 2); rowIndex++)
-                {
-                    byte tempHolder = theArray[rowIndex, colIndex];
-                    theArray[rowIndex, colIndex] =
-                    theArray[theArray.GetUpperBound(0) - rowIndex, colIndex];
-                    theArray[theArray.GetUpperBound(0) - rowIndex, colIndex] = tempHolder;
-                }
+        }
 
+        private static byte[,] TopEndSelect(byte[,] theArray)
+        {
+            var isTop = false;
+            var globalCount = 0;
+            var top = 0;
+            byte[,] result = new byte[theArray.GetLength(0), theArray.GetLength(1)];
+            for (; globalCount <= theArray.GetUpperBound(0); globalCount++)
+            {
+                if (isTop == false)
+                {
+                    for (int i = 0; i <= theArray.GetUpperBound(1); i++)
+                    {
+                        result[globalCount, i] = theArray[theArray.GetUpperBound(0) - top, i];
+                    }
+                    isTop = true;
+                }
+                else if (isTop == true)
+                {
+                    for (int i = 0; i <= theArray.GetUpperBound(1); i++)
+                    {
+                        result[globalCount, i] = theArray[top, i];
+                    }
+                    isTop = false;
+                    top++;
+                }
             }
+            return result;
         }
         //-----------------------------AES ŞİFRELEME------------------------------------------------------------------------------------------------------------------------------
-        public byte[] Encrypt(byte[] data, byte[] key, byte[] iv) 
+        public byte[] Encrypt(byte[] data, byte[] key, byte[] iv)
         {
             using (var aes = Aes.Create())
             {

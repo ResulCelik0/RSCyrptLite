@@ -19,11 +19,11 @@ namespace Calculate
                 }
             }
             //---------------------------------------------------------------------------
-            //if(factor.Count == 1) // eğer 1 çarpan varsa 
-            //{
-            //    partition = 1;
-            //    goto go;
-            //}
+            if(factor.Count == 1) // eğer 1 çarpan varsa 
+            {
+                partition = 1;
+                goto go;
+            }
             //---------------------------------------------------------------------------
             if (factor.Count == 2) // eğer iki çarpan varsa
             {

@@ -55,23 +55,28 @@ namespace RSCyrptLite
                 }
                 else if (Convert.ToInt32(opt2) == 2)
                 {
-
+                  
                     byte[] key = Aes();
                 re:
                     Console.WriteLine("Text to be encrypted, enter:");
                     var data = Encoding.UTF8.GetBytes(Console.ReadLine());
-                    if (data is null)
+                    if (data.Length>0 )
                     {
+                        Console.Clear();
+                        Bannner();
+                        var c = new EncodeDecode.EncodeDecode().Encode(data, key, iv, true);
+                        var str = BitConverter.ToString(c).Replace("-", "");
+                        Console.WriteLine("Encrypted Text");
+                        Console.WriteLine(str);
+                        Console.ReadLine();
+                        goto start;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Value cannot be null");
+                        Console.ReadLine();
                         goto re;
                     }
-                    Console.Clear();
-                    Bannner();
-                    var c = new EncodeDecode.EncodeDecode().Encode(data, key, iv,true);
-                    var str = BitConverter.ToString(c).Replace("-", "");
-                    Console.WriteLine("Encrypted Text");
-                    Console.WriteLine(str);
-                    Console.ReadLine();
-                    goto start;
 
                 }
                 else
