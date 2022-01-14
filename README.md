@@ -49,10 +49,11 @@ byte dizisine AES şifrelenmesi uygulanır.
 2.  luserkilec
 
 - 2 boyutlu dizinin 0. boyutuna son baş seçme algoritrması uygulanır
+3.  kilecluser
 ------------
 #### Son Baş Seçme Algoritması
 Veriyi bir sonundan bir başından seçerek karmaşık sıralar
-Örn abcdef
+- Örn abcdef
 -   faebdc
 ------------
 - 2 boyutlu dizi tek boyutlu dizeye çevirilir
