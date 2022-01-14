@@ -19,10 +19,11 @@ namespace RSCyrptLite
             Console.WriteLine("2: Decyrpt");
             Console.WriteLine("Select Option:");
             var opt1 = Console.ReadLine();
-            if (opt1 == null)
+            if (opt1 == "")
             {
                 Console.WriteLine("Value cannot be null");
                 Console.ReadLine();
+                Console.Clear();
                 goto start;
             }
         start2:
@@ -33,10 +34,11 @@ namespace RSCyrptLite
             Console.WriteLine("2: Text");
             Console.WriteLine("Select Option");
             var opt2 = Console.ReadLine();
-            if (opt2 == null)
+            if (opt2 == "")
             {
                 Console.WriteLine("Value cannot be null");
                 Console.ReadLine();
+                Console.Clear();
                 goto start2;
             }
             Console.Clear();
