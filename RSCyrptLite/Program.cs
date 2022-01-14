@@ -15,10 +15,17 @@ namespace RSCyrptLite
         start:
             Bannner();
             Console.WriteLine("What you wanna do ?");
-            Console.WriteLine("1: Encypt");
+            Console.WriteLine("1: Encyrpt");
             Console.WriteLine("2: Decyrpt");
             Console.WriteLine("Select Option:");
             var opt1 = Console.ReadLine();
+            if (opt1 == null)
+            {
+                Console.WriteLine("Value cannot be null");
+                Console.ReadLine();
+                goto start;
+            }
+        start2:
             Console.Clear();
             Bannner();
             Console.WriteLine("Are you processing the file or the text?");
@@ -26,6 +33,12 @@ namespace RSCyrptLite
             Console.WriteLine("2: Text");
             Console.WriteLine("Select Option");
             var opt2 = Console.ReadLine();
+            if (opt2 == null)
+            {
+                Console.WriteLine("Value cannot be null");
+                Console.ReadLine();
+                goto start2;
+            }
             Console.Clear();
             if (Convert.ToInt32(opt1) == 1)
             {
@@ -55,12 +68,12 @@ namespace RSCyrptLite
                 }
                 else if (Convert.ToInt32(opt2) == 2)
                 {
-                  
+
                     byte[] key = Aes();
                 re:
                     Console.WriteLine("Text to be encrypted, enter:");
                     var data = Encoding.UTF8.GetBytes(Console.ReadLine());
-                    if (data.Length>0 )
+                    if (data.Length > 0)
                     {
                         Console.Clear();
                         Bannner();
@@ -218,7 +231,7 @@ namespace RSCyrptLite
         {
         re:
             Bannner();
-            Console.WriteLine("Please enter your 16 Digit AES password(if not, create)");
+            Console.WriteLine("Please enter your 16 Digit AES password (if not, create)");
             var key = Encoding.UTF8.GetBytes(Console.ReadLine());
             Console.Clear();
             if (key.Length == 16) { return key; }
